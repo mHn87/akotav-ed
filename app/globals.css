@@ -12,7 +12,7 @@
 .dark { color-scheme: dark; --background: oklch(0.14 0.035 254); --foreground: oklch(0.94 0.025 240); --card: oklch(0.19 0.04 254); --card-foreground: oklch(0.94 0.025 240); --popover: oklch(0.19 0.04 254); --popover-foreground: oklch(0.94 0.025 240); --primary: oklch(0.68 0.18 252); --primary-foreground: oklch(0.14 0.035 254); --secondary: oklch(0.24 0.045 254); --secondary-foreground: oklch(0.94 0.025 240); --muted: oklch(0.23 0.04 254); --muted-foreground: oklch(0.68 0.04 240); --accent: oklch(0.28 0.08 235); --accent-foreground: oklch(0.94 0.025 240); --border: oklch(0.29 0.05 254); --input: oklch(0.29 0.05 254); --ring: oklch(0.68 0.18 252); }
 
 @layer base { * { @apply border-border outline-ring/50; } html { scroll-behavior: smooth; } body { @apply bg-background text-foreground; font-family: var(--font-vazirmatn), Vazirmatn, sans-serif; } }
-@keyframes marquee { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-33.333%, 0, 0); } }
+@keyframes marquee { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
 .animate-marquee { animation: marquee 28s linear infinite; will-change: transform; }
 .animate-marquee:hover { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
