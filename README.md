@@ -1,249 +1,236 @@
 # Akotav Admin Panel
 
-پنل مدیریت دو زبانه (فارسی/انگلیسی) برای مدیریت محصولات، دسته‌بندی‌ها و محتوای سایت آکاتو.
+پنل مدیریت دو زبانه (فارسی/انگلیسی) برای مدیریت محصولات، دسته‌بندی‌ها و محتوای سایت آکوتاو.
 
-> ⚠️ **توجه**: اگر تغییرات اخیر را دریافت کرده‌اید، لطفاً فایل `FINAL_CHANGES.md` را بخوانید.
+## ✨ ویژگی‌ها
 
-## 🎯 ویژگی‌ها
+### پنل مدیریت
+- 🔐 **احراز هویت**: سیستم ورود با JWT (username: `admin` / password: `123qwe123`)
+- 🌐 **دو زبانه**: پشتیبانی کامل از فارسی و انگلیسی
+- 🎨 **حالت تاریک/روشن**: تم آبی-سفید با قابلیت تغییر
+- 📦 **مدیریت دسته‌بندی‌ها**: CRUD کامل برای دسته‌بندی محصولات
+- 🛍️ **مدیریت محصولات**: افزودن، ویرایش، حذف محصولات با آپلود چند تصویر
+- 🖼️ **مدیریت بنرها**: بنرهای اسلایدر با قابلیت ترتیب‌دهی
+- 🤝 **مدیریت شرکای همکار**: لوگو و لینک شرکت‌های همکار
+- 📄 **مدیریت صفحات**: ویرایش محتوای صفحات درباره ما و تماس با ما
+- 📤 **آپلود تصاویر**: ذخیره‌سازی تصاویر در MinIO
+- ✏️ **ویرایشگر متن**: Tiptap برای محتوای غنی
 
-✅ **احراز هویت امن** - JWT-based authentication  
-✅ **دو زبانه** - پشتیبانی کامل از فارسی و انگلیسی با تغییر فوری  
-✅ **حالت تاریک/روشن** - Dark/Light mode با ذخیره تنظیمات  
-✅ **مدیریت دسته‌بندی** - ساده و بدون سلسله‌مراتب  
-✅ **مدیریت محصولات** - با فیلدهای دو زبانه و pagination  
-✅ **آپلود رسانه** - آپلود تصاویر و ویدیو به MinIO با نمایش پیشرفت  
-✅ **تصویر اصلی** - انتخاب تصویر اصلی با کلیک (بدون اولویت‌بندی)  
-✅ **ویرایشگر متن غنی** - Tiptap editor با امکانات bold, italic, headings, lists  
-✅ **مدیریت صفحات** - ویرایش محتوای "درباره ما" و "تماس با ما"  
-✅ **Pagination** - نمایش 10 محصول در هر صفحه  
-✅ **Responsive** - طراحی واکنش‌گرا برای موبایل و دسکتاپ
+### صفحه اصلی
+- 🎭 **اسلایدر بنر**: نمایش بنرها با auto-play هر 3 ثانیه
+- 📦 **دسته‌بندی محصولات**: نمایش دسته‌بندی‌ها با رنگ‌های تصادفی
+- 📖 **درباره ما**: نمایش پیش‌نمایش صفحه درباره ما از API
+- 🤝 **شرکای همکار**: اسکرول خودکار لوگوهای شرکت‌ها (RTL)
+- 📱 **دکمه واتساپ**: دکمه شناور برای تماس مستقیم (09194862368)
+- 🌐 **دو زبانه**: تغییر فوری زبان بین فارسی و انگلیسی
 
-## 📋 پیش‌نیازها
-
-- Node.js 18+
-- Docker & Docker Compose
-- npm یا pnpm
+### صفحات دیگر
+- **صفحه محصولات**: فیلتر بر اساس دسته‌بندی، جستجو، مرتب‌سازی، pagination
+- **صفحه درباره ما**: نمایش محتوای کامل از API
+- **صفحه تماس با ما**: نمایش اطلاعات تماس از API
 
 ## 🚀 نصب و راه‌اندازی
 
-### 1. نصب وابستگی‌ها
+### پیش‌نیازها
+- Node.js 18+
+- pnpm (یا npm/yarn)
+- Docker & Docker Compose
 
+### مراحل نصب
+
+#### 1. کلون کردن پروژه
 ```bash
-npm install
+git clone <repository-url>
+cd akotav
 ```
 
-### 2. راه‌اندازی سرویس‌ها (PostgreSQL و MinIO)
+#### 2. نصب وابستگی‌ها
+```bash
+pnpm install
+```
 
+#### 3. راه‌اندازی PostgreSQL و MinIO
 ```bash
 docker-compose up -d
 ```
 
-این دستور سرویس‌های زیر را راه‌اندازی می‌کند:
-- **PostgreSQL**: پورت 5432
-- **MinIO API**: پورت 9000
-- **MinIO Console**: پورت 9001
+این دستور دو سرویس را راه‌اندازی می‌کند:
+- **PostgreSQL**: دیتابیس اصلی روی پورت `5432`
+- **MinIO**: ذخیره‌سازی فایل روی پورت `9000` (Console: `9001`)
 
-منتظر بمانید تا سرویس‌ها کاملاً راه‌اندازی شوند (حدود 30 ثانیه).
-
-### 3. تنظیم دیتابیس
-
-```bash
-# ساخت جداول دیتابیس
-npx prisma migrate dev --name init
-
-# اضافه کردن داده‌های اولیه (صفحات و دسته‌بندی‌های نمونه)
-npm run db:seed
+#### 4. تنظیم متغیرهای محیطی
+فایل `.env` را ویرایش کنید (از قبل موجود است):
+```env
+DATABASE_URL="postgresql://akotav:akotav123@localhost:5432/akotav"
+JWT_SECRET="your-super-secret-jwt-key-change-this-in-production"
+MINIO_ENDPOINT="localhost"
+MINIO_PORT=9000
+MINIO_USE_SSL=false
+MINIO_ACCESS_KEY="minioadmin"
+MINIO_SECRET_KEY="minioadmin"
+MINIO_BUCKET_NAME="akotav"
 ```
 
-### 4. اجرای پروژه
-
+#### 5. راه‌اندازی دیتابیس
 ```bash
-npm run dev
+# ایجاد جداول
+npx prisma db push
+
+# وارد کردن داده‌های اولیه
+npx prisma db seed
 ```
 
-پروژه روی **http://localhost:3000** اجرا می‌شود.
+این دستور داده‌های زیر را ایجاد می‌کند:
+- 4 دسته‌بندی: خانه هوشمند، امنیت و نظارت، سیستم تهویه، امنیت و دوربین مدار بسته
+- صفحه درباره ما با محتوای کامل
+- صفحه تماس با ما با آدرس و اطلاعات تماس
 
-## 🔐 دسترسی به پنل ادمین
+#### 6. اجرای پروژه
+```bash
+pnpm dev
+```
 
-- **URL**: http://localhost:3000/panel/login
+پروژه روی `http://localhost:3000` اجرا می‌شود.
+
+## 🔑 دسترسی به پنل
+
+- **آدرس پنل**: `http://localhost:3000/panel`
 - **نام کاربری**: `admin`
 - **رمز عبور**: `123qwe123`
 
-## 🗄️ دسترسی به MinIO Console
-
-برای مدیریت فایل‌ها و bucket‌ها:
-
-- **URL**: http://localhost:9001
-- **نام کاربری**: `admin`
-- **رمز عبور**: `123qwe123`
-
-## 📁 ساختار پروژه
+## 🗂️ ساختار پروژه
 
 ```
 akotav/
 ├── app/
-│   ├── api/                    # API Routes
-│   │   ├── auth/              # Authentication endpoints
-│   │   ├── categories/        # Categories CRUD
-│   │   ├── products/          # Products CRUD
-│   │   ├── pages/             # Pages CRUD
-│   │   └── upload/            # Media upload to MinIO
-│   ├── panel/                 # Admin panel pages
-│   │   ├── categories/        # Categories management
-│   │   ├── products/          # Products management
-│   │   ├── pages/             # Pages management
-│   │   ├── login/             # Login page
-│   │   ├── layout.tsx         # Panel layout
-│   │   └── page.tsx           # Dashboard
-│   ├── globals.css
-│   ├── layout.tsx
-│   ├── not-found.tsx          # 404 page
-│   └── page.tsx               # Public homepage
+│   ├── api/              # API routes
+│   │   ├── auth/         # احراز هویت (login, logout, verify)
+│   │   ├── panel/        # API های پنل مدیریت
+│   │   └── public/       # API های عمومی (بدون احراز هویت)
+│   ├── panel/            # صفحات پنل مدیریت
+│   ├── products/         # صفحه محصولات
+│   ├── about/            # صفحه درباره ما
+│   ├── contact/          # صفحه تماس با ما
+│   └── page.tsx          # صفحه اصلی
 ├── components/
-│   ├── rich-text-editor.tsx   # Tiptap editor
-│   ├── smart-building-site.tsx
-│   └── ui/
+│   ├── smart-building-site.tsx  # کامپوننت اصلی صفحه لندینگ
+│   └── whatsapp-button.tsx      # دکمه واتساپ شناور
 ├── lib/
-│   ├── auth.ts                # JWT authentication
-│   ├── i18n.ts                # Translations
-│   ├── minio.ts               # MinIO client
-│   ├── prisma.ts              # Prisma client
-│   └── utils.ts
+│   ├── minio.ts          # کانفیگ MinIO
+│   ├── jwt.ts            # توابع JWT
+│   └── utils.ts          # توابع کمکی
 ├── prisma/
-│   ├── schema.prisma          # Database schema
-│   └── seed.ts                # Seed data
-├── docker-compose.yml         # Services configuration
-├── middleware.ts              # Auth middleware
-└── .env                       # Environment variables
+│   ├── schema.prisma     # مدل دیتابیس
+│   └── seed.ts           # داده‌های اولیه
+└── docker-compose.yml    # کانفیگ PostgreSQL و MinIO
 ```
 
-## 🛠️ دستورات مفید
+## 📦 دسته‌بندی‌های پیش‌فرض
+
+1. **خانه هوشمند** (Smart Home)
+2. **امنیت و نظارت** (Security & Surveillance)
+3. **سیستم تهویه** (Ventilation System)
+4. **امنیت و دوربین مدار بسته** (CCTV Security)
+
+## 🛠️ تکنولوژی‌ها
+
+- **Framework**: Next.js 14 (App Router)
+- **Database**: PostgreSQL
+- **ORM**: Prisma
+- **Storage**: MinIO
+- **Authentication**: JWT
+- **UI**: Tailwind CSS
+- **Rich Text Editor**: Tiptap
+- **Language**: TypeScript
+- **Icons**: Lucide React
+
+## 🔄 دستورات مفید
 
 ```bash
-# نصب dependencies
-npm install
+# نصب وابستگی‌ها
+pnpm install
 
-# اجرای development server
-npm run dev
+# اجرای پروژه در حالت توسعه
+pnpm dev
 
-# ساخت production build
-npm build
+# بیلد پروژه
+pnpm build
 
-# اجرای production server
-npm start
+# اجرای بیلد شده
+pnpm start
 
-# تولید Prisma Client
-npm run db:generate
-
-# ساخت migration جدید
-npm run db:migrate
-
-# اضافه کردن seed data
-npm run db:seed
-
-# باز کردن Prisma Studio (Database GUI)
-npm run db:studio
-
-# شروع Docker services
+# راه‌اندازی دیتابیس
 docker-compose up -d
 
-# نمایش logs
-docker-compose logs -f
-
-# متوقف کردن services
+# خاموش کردن دیتابیس
 docker-compose down
 
-# حذف کامل (با volumes)
-docker-compose down -v
+# ایجاد/آپدیت جداول دیتابیس
+npx prisma db push
+
+# وارد کردن داده‌های اولیه
+npx prisma db seed
+
+# مشاهده دیتابیس با Prisma Studio
+npx prisma studio
 ```
-
-## 🎨 رنگ‌بندی
-
-پنل از تم آبی-سفید استفاده می‌کند:
-- **Primary**: Blue (#1e6ff0)
-- **Background**: White / Dark Gray
-- **Text**: Gray 900 / White
-
-## 🌐 زبان‌ها
-
-- **فارسی (پیش‌فرض)**: RTL layout
-- **انگلیسی**: LTR layout
-
-تغییر زبان از طریق دکمه در navigation bar انجام می‌شود.
 
 ## 📝 نکات مهم
 
-### دسته‌بندی‌ها
-- نام انگلیسی باید unique باشد
-- ساده و بدون سلسله‌مراتب
-- حذف دسته‌بندی، تمام محصولات مرتبط را نیز حذف می‌کند
+### MinIO Console
+برای دسترسی به MinIO Console:
+- آدرس: `http://localhost:9001`
+- نام کاربری: `minioadmin`
+- رمز عبور: `minioadmin`
 
-### محصولات
-- نام فارسی **الزامی** است
-- نام انگلیسی **اختیاری** است
-- هر محصول می‌تواند چندین عکس و ویدیو داشته باشد
-- یک تصویر به عنوان **تصویر اصلی** با کلیک انتخاب می‌شود
-- تصویر اصلی با border آبی مشخص می‌شود
-- ویدیوها نمی‌توانند تصویر اصلی باشند
-- لیست محصولات با pagination (10 آیتم در صفحه)
+### دیتابیس
+اگر نیاز به ریست کامل دیتابیس دارید:
+```bash
+docker-compose down -v
+docker-compose up -d
+npx prisma db push
+npx prisma db seed
+```
 
-### رسانه‌ها (Media)
-- فرمت‌های مجاز تصویر: JPG, PNG, GIF, WebP
-- فرمت‌های مجاز ویدیو: MP4, WebM, MOV
-- فایل‌ها در MinIO ذخیره می‌شوند
-- URL عمومی برای دسترسی به فایل‌ها
-- کاربر با کلیک تصویر اصلی را انتخاب می‌کند
+### تصاویر
+تمام تصاویر در MinIO bucket با نام `akotav` ذخیره می‌شوند.
 
-### صفحات
-- دو صفحه ثابت: "درباره ما" و "تماس با ما"
-- فقط محتوای دو زبانه با rich text editor
-- پشتیبانی از HTML
-
-## 🔒 امنیت
-
-- رمزهای عبور با bcrypt هش می‌شوند
-- JWT برای session management
-- Cookie با httpOnly flag
-- Middleware برای محافظت از روت‌های پنل
-- MinIO با authentication
-
-## 🐛 عیب‌یابی
+## 🐛 رفع مشکلات
 
 ### خطای اتصال به دیتابیس
 ```bash
-# بررسی کنید که PostgreSQL در حال اجرا است
+# بررسی وضعیت Docker containers
 docker-compose ps
 
-# Logs را بررسی کنید
+# مشاهده لاگ‌ها
 docker-compose logs postgres
 ```
 
-### خطای آپلود فایل
+### خطای MinIO
 ```bash
-# بررسی کنید که MinIO در حال اجرا است
-docker-compose ps
-
-# Logs را بررسی کنید
+# بررسی لاگ‌های MinIO
 docker-compose logs minio
 
-# bucket را manually بسازید
-docker exec -it akotav-minio-mc mc mb myminio/akotav
+# ریستارت MinIO
+docker-compose restart minio
 ```
 
-### خطای Prisma
+### خطای Migration
 ```bash
-# Prisma Client را دوباره generate کنید
-npx prisma generate
-
-# Database را reset کنید (⚠️ تمام داده‌ها حذف می‌شود)
-npx prisma migrate reset
+# حذف و ایجاد مجدد دیتابیس
+docker-compose down -v
+docker-compose up -d
+npx prisma db push
 ```
 
-## 📞 پشتیبانی
+## 📞 اطلاعات تماس
 
-برای سوالات و مشکلات، با تیم توسعه تماس بگیرید.
+- **آدرس**: استان تهران، شهرستان شمیرانات، بخش مرکزی، شهر تجریش، چیذر، خیابان شهیدسرلشکرمنصور وطن پور شمالی، خیابان شهید دکتر لواسانی، پلاک ۲۰۰، طبقه ۱
+- **کد پستی**: 1937744114
+- **تلفن**: 021-00000000
+- **واتساپ**: 09194862368
+- **ساعات کاری**: 8 الی 14 و 17 الی 20
 
 ## 📄 لایسنس
 
-© 2024 Akotav. All rights reserved.
-
+این پروژه برای استفاده شخصی شرکت آکوتاو ساخته شده است.

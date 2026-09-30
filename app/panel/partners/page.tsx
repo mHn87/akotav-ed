@@ -10,7 +10,7 @@ type Partner = {
   title: string | null
   logoUrl: string
   filename: string
-  websiteUrl: string
+  websiteUrl: string | null
   createdAt: string
 }
 
@@ -113,18 +113,20 @@ export default function PartnersPage() {
                 <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
                   {partner.title || (lang === 'fa' ? 'شرکت همکار' : 'Partner Company')}
                 </h3>
-                <a
-                  href={partner.websiteUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mb-3 flex items-center gap-1 text-sm text-blue-600 hover:underline dark:text-blue-400"
-                >
-                  <ExternalLink className="h-3 w-3" />
-                  {partner.websiteUrl}
-                </a>
+                {partner.websiteUrl && (
+                  <a
+                    href={partner.websiteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mb-3 flex items-center gap-1 text-sm text-blue-600 hover:underline dark:text-blue-400"
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                    {partner.websiteUrl}
+                  </a>
+                )}
 
                 {/* Actions */}
-                <div className="flex gap-2">
+                <div className="flex gap-2 mt-3">
                   <Link
                     href={`/panel/partners/${partner.id}`}
                     className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-blue-50 px-3 py-2 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:hover:bg-blue-900/30"

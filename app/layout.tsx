@@ -6,7 +6,7 @@ const vazirmatn = Vazirmatn({ subsets: ['arabic'], variable: '--font-vazirmatn' 
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'آکاتو | akotav — هوشمندسازی ساختمان',
+  title: 'آکوتاو | akotav — هوشمندسازی ساختمان',
   description: 'راهکارهای یکپارچه هوشمندسازی ساختمان برای خانه‌ها و فضاهای کاری آرام‌تر، امن‌تر و کارآمدتر.',
   generator: 'v0.app',
 }

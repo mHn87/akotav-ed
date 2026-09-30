@@ -11,7 +11,7 @@ type Partner = {
   title: string | null
   logoUrl: string
   filename: string
-  websiteUrl: string
+  websiteUrl: string | null
 }
 
 export default function PartnerFormPage({ params }: { params: Promise<{ id: string }> }) {
@@ -44,7 +44,7 @@ export default function PartnerFormPage({ params }: { params: Promise<{ id: stri
         const data: Partner = await res.json()
         setFormData({
           title: data.title || '',
-          websiteUrl: data.websiteUrl,
+          websiteUrl: data.websiteUrl || '',
         })
         setLogo({ url: data.logoUrl, filename: data.filename })
       }
@@ -111,11 +111,6 @@ export default function PartnerFormPage({ params }: { params: Promise<{ id: stri
 
     if (!logo) {
       alert(lang === 'fa' ? 'لوگو الزامی است' : 'Logo is required')
-      return
-    }
-
-    if (!formData.websiteUrl) {
-      alert(lang === 'fa' ? 'وب‌سایت الزامی است' : 'Website URL is required')
       return
     }
 
@@ -241,7 +236,7 @@ export default function PartnerFormPage({ params }: { params: Promise<{ id: stri
         {/* Website URL */}
         <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
           <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-            {t.partnerWebsite} *
+            {t.partnerWebsite} ({lang === 'fa' ? 'اختیاری' : 'Optional'})
           </label>
           <input
             type="url"
@@ -249,7 +244,6 @@ export default function PartnerFormPage({ params }: { params: Promise<{ id: stri
             onChange={(e) => setFormData({ ...formData, websiteUrl: e.target.value })}
             className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
             placeholder="https://example.com"
-            required
           />
         </div>
 

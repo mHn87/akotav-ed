@@ -114,42 +114,45 @@ export default function BannersPage() {
           {banners.map((banner, index) => (
             <div
               key={banner.id}
-              className="flex items-center gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800"
+              className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800"
             >
-              {/* Banner Image */}
-              <div className="h-20 w-32 flex-shrink-0 overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-700">
-                <img
-                  src={banner.imageUrl}
-                  alt={banner.title || 'Banner'}
-                  className="h-full w-full object-cover"
-                />
+              {/* Top Row: Image and Info */}
+              <div className="flex items-center gap-4">
+                {/* Banner Image */}
+                <div className="h-20 w-32 flex-shrink-0 overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-700">
+                  <img
+                    src={banner.imageUrl}
+                    alt={banner.title || 'Banner'}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+
+                {/* Banner Info */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold text-gray-900 dark:text-white truncate">
+                      {banner.title || (lang === 'fa' ? 'بنر بدون عنوان' : 'Untitled Banner')}
+                    </h3>
+                    <span className="text-sm font-medium text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                      #{banner.order}
+                    </span>
+                  </div>
+                  {banner.linkUrl && (
+                    <a
+                      href={banner.linkUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-1 flex items-center gap-1 text-sm text-blue-600 hover:underline dark:text-blue-400 truncate"
+                    >
+                      <ExternalLink className="h-3 w-3 flex-shrink-0" />
+                      <span className="truncate">{banner.linkUrl}</span>
+                    </a>
+                  )}
+                </div>
               </div>
 
-              {/* Banner Info */}
-              <div className="flex-1">
-                <h3 className="font-semibold text-gray-900 dark:text-white">
-                  {banner.title || (lang === 'fa' ? 'بنر بدون عنوان' : 'Untitled Banner')}
-                </h3>
-                {banner.linkUrl && (
-                  <a
-                    href={banner.linkUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-1 flex items-center gap-1 text-sm text-blue-600 hover:underline dark:text-blue-400"
-                  >
-                    <ExternalLink className="h-3 w-3" />
-                    {banner.linkUrl}
-                  </a>
-                )}
-              </div>
-
-              {/* Order Display */}
-              <div className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                #{banner.order}
-              </div>
-
-              {/* Actions */}
-              <div className="flex items-center gap-2">
+              {/* Bottom Row: Actions */}
+              <div className="mt-3 flex items-center justify-end gap-2 border-t border-gray-100 pt-3 dark:border-gray-700">
                 {/* Move Up */}
                 <button
                   onClick={() => handleMove(banner.id, 'up')}

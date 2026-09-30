@@ -16,7 +16,7 @@ export default function LoginPage() {
   const t = {
     fa: {
       title: 'ورود به پنل مدیریت',
-      subtitle: 'پنل مدیریت آکاتو',
+      subtitle: 'پنل مدیریت آکوتاو',
       username: 'نام کاربری',
       password: 'رمز عبور',
       login: 'ورود',

@@ -114,7 +114,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
             {/* Logo */}
             <div className="flex h-16 items-center justify-between border-b border-gray-200 px-6 dark:border-gray-700">
               <h1 className="text-xl font-bold text-blue-600 dark:text-blue-400">
-                {lang === 'fa' ? 'پنل آکاتو' : 'Akotav Panel'}
+                {lang === 'fa' ? 'پنل آکوتاو' : 'Akotav Panel'}
               </h1>
               <button
                 onClick={() => setSidebarOpen(false)}
@@ -185,7 +185,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                 <Menu className="h-6 w-6" />
               </button>
               <h1 className="text-lg font-bold text-blue-600 dark:text-blue-400">
-                {lang === 'fa' ? 'پنل آکاتو' : 'Akotav Panel'}
+                {lang === 'fa' ? 'پنل آکوتاو' : 'Akotav Panel'}
               </h1>
               <div className="w-6" />
             </header>

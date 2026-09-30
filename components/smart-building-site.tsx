@@ -1,27 +1,8 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowLeft, ArrowRight, ArrowUpLeft, Check, ChevronDown, ChevronLeft, ChevronRight, Globe2, Leaf, Lightbulb, Menu, Moon, Search, ShieldCheck, SlidersHorizontal, Sparkles, Sun, Thermometer, X, Zap } from 'lucide-react'
-
-const products = [
-  { icon: Lightbulb, en: 'Smart lighting control', fa: 'کنترل روشنایی هوشمند', color: 'bg-amber-100 text-amber-700' },
-  { icon: Thermometer, en: 'Climate & HVAC', fa: 'کنترل تهویه و دما', color: 'bg-sky-100 text-sky-700' },
-  { icon: ShieldCheck, en: 'Security & CCTV', fa: 'امنیت و دوربین هوشمند', color: 'bg-violet-100 text-violet-700' },
-  { icon: Zap, en: 'Energy management', fa: 'مدیریت انرژی', color: 'bg-emerald-100 text-emerald-700' },
-]
-
-const bannerImages = [
-  { src: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%201405-07-07%20at%2000.19.08-0cynfZjAssHDIkR031N936UKcowFhR.png', alt: 'کنترل هوشمند خانه با تلفن همراه' },
-  { src: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%201405-07-07%20at%2000.19.02-xEoFxUcZThLgkGAxhEaI7Ju3KFbiXO.png', alt: 'تجهیزات حرفه‌ای بیمارستانی' },
-  { src: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%201405-07-07%20at%2000.19.15-ci5OZQmrWl2BpC7oe9zv3dymKE0FG6.png', alt: 'خانه هوشمند و سیستم مدیریت ساختمان' },
-]
-
-const partners = [
-  { src: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-2-XlAT450oMvNdUXAUGCxR4aQ28KNo4Y.png', alt: 'لوگوی شریک تجاری' },
-  { src: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Control4_Logo_Color-2048x449-Q0oR7ku7sETWjMTRi6ElY8ZG8t5ZIZ.png', alt: 'Control4' },
-  { src: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/triad_logo_color_color-Wz0KlXSvOiCbZDGnPZYqD1mXydXQEo.png', alt: 'Triad' },
-  { src: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/system-sensor-B-2048x715-ImL6ZL7xL4BscB8HfC89mHIOfrlsIZ.png', alt: 'System Sensor' },
-]
+import { ArrowLeft, Check, ChevronDown, Globe2, Leaf, Lightbulb, Menu, Moon, Search, ShieldCheck, SlidersHorizontal, Sparkles, Sun, Thermometer, X, Zap } from 'lucide-react'
+import WhatsAppButton from './whatsapp-button'
 
 function NetworkBackground() {
   const ref = useRef<HTMLCanvasElement>(null)
@@ -59,11 +40,69 @@ export default function SmartBuildingSite() {
   const [fa, setFa] = useState(true)
   const [dark, setDark] = useState(false)
   const [menu, setMenu] = useState(false)
-  const [slide, setSlide] = useState(0)
   const [bannerSlide, setBannerSlide] = useState(0)
   const [search, setSearch] = useState(false)
+  const [banners, setBanners] = useState<{id: string; title: string | null; imageUrl: string; linkUrl: string | null}[]>([])
+  const [categories, setCategories] = useState<{id: string; nameFa: string; nameEn: string}[]>([])
+  const [aboutPreview, setAboutPreview] = useState<string>('')
+  const [partners, setPartners] = useState<{id: string; title: string | null; logoUrl: string; websiteUrl: string | null}[]>([])
   const dir = fa ? 'rtl' : 'ltr'
-  const copy = useMemo(() => fa ? { nav: ['خانه','محصولات','تماس با ما','درباره ما','مجله'], heroKicker:'تجهیزات حرفه‌ای ساختمانی', heroTitle:'آکاتو، انتخابی برای', heroAccent:'ساختمان‌های امن‌تر.', heroText:'ارائه تجهیزات و سیستم‌های حرفه‌ای ساختمانی برای فضاهایی امن‌تر، آرام‌تر و کارآمدتر.', cta:'مشاهده محصولات', products:'محصولات آکاتو', productsText:'تجهیزات حرفه‌ای و قابل اعتماد برای ساختن فضاهایی امن و هوشمند.', all:'مشاهده محصول', story:'درباره آکاتو', storyText:'شرکت آکوتاو در سال 1390 فعالیت خود را در زمینه ارائه خدمات و محصولات تجهیزات ساختمانی آغاز نموده است. این شرکت جزو مشاوران مورد تأیید سازمان‌های مهندسی و تجاری تهران می‌باشد و با بهره‌گیری از سال‌ها تجربه ارزشمند و راه‌اندازی صدها پروژه ملی، تبدیل به یکی از برندهای خوشنام و مورد اعتماد در حوزه تأسیسات شده است. ارائه راهکارهای متناسب با نیاز مشتری و خدمات پس از فروش پیوسته، باعث جلب اعتماد صنایع مختلف شده و رمز موفقیت این شرکت است. تمامی سیستم‌ها باید از برندهای معتمد، تأییدیه‌های معتبر جهانی و مهم‌تر از همه مورد تأیید سازمان آتش‌نشانی، مهندسی و خدمات ایمنی برق و غیره باشند. گروه صنعتی آکوتاو نماینده بهترین و معتبرترین برندهای مربوط به سیستم‌های اعلام حریق و سیستم‌های اطفاء حریق می‌باشد. همکاری با کمپانی‌های معتبر اروپایی و استفاده از پرسنل کارآزموده، در کنار بهره‌گیری از استانداردهای معتبر بین‌المللی، باعث کسب رضایت مشتریان و ارتقاء جایگاه این شرکت گردیده است.', explore:'بیشتر', insights:'از دنیای هوشمندسازی', read:'خواندن مقاله', partners:'اعتماد ساخته می‌شود، نه گفته.', contact:'تماس با ما ', menu:'منو' } : { nav: ['Home','Products','Services','About us','Insights'], heroKicker:'Buildings, made more intelligent', heroTitle:'Technology that', heroAccent:'moves with you.', heroText:'Integrated building automation for calmer, safer and more efficient homes and workspaces.', cta:'Explore solutions', secondary:'Watch the film', products:'Intelligence for every space', productsText:'From a single room to a complete building, create an experience that feels effortless.', all:'View all products', story:'Technology matters when it makes life simpler.', storyText:'We design intelligent infrastructure that works in the background — precise, calm and always ready.', explore:'More about us', insights:'From the world of smart spaces', read:'Read article', partners:'Trust is built, not claimed.', contact:'Talk to an expert', menu:'Menu' }, [fa])
+
+  // Fetch banners from API
+  useEffect(() => {
+    fetch('/api/public/banners')
+      .then(res => res.json())
+      .then(data => setBanners(data))
+      .catch(err => console.error('Failed to fetch banners:', err))
+    
+    fetch('/api/public/categories')
+      .then(res => res.json())
+      .then(data => setCategories(data))
+      .catch(err => console.error('Failed to fetch categories:', err))
+
+    fetch('/api/public/pages/about')
+      .then(res => res.json())
+      .then(data => {
+        // Extract first 5 lines of content
+        const content = fa ? data.contentFa : data.contentEn
+        const tempDiv = document.createElement('div')
+        tempDiv.innerHTML = content
+        const text = tempDiv.textContent || ''
+        const lines = text.split('\n').filter(line => line.trim()).slice(0, 5).join('\n')
+        setAboutPreview(lines)
+      })
+      .catch(err => console.error('Failed to fetch about page:', err))
+
+    fetch('/api/public/partners')
+      .then(res => res.json())
+      .then(data => setPartners(data))
+      .catch(err => console.error('Failed to fetch partners:', err))
+  }, [])
+
+  // Auto-play banners every 3 seconds
+  useEffect(() => {
+    if (banners.length <= 1) return
+    const interval = setInterval(() => {
+      setBannerSlide(prev => (prev + 1) % banners.length)
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [banners.length])
+
+  // Generate random light background color
+  const getRandomLightColor = (index: number) => {
+    const colors = [
+      'bg-blue-50 dark:bg-blue-900/10',
+      'bg-green-50 dark:bg-green-900/10',
+      'bg-yellow-50 dark:bg-yellow-900/10',
+      'bg-purple-50 dark:bg-purple-900/10',
+      'bg-red-50 dark:bg-red-900/10',
+      'bg-pink-50 dark:bg-pink-900/10',
+      'bg-indigo-50 dark:bg-indigo-900/10',
+      'bg-teal-50 dark:bg-teal-900/10',
+    ]
+    return colors[index % colors.length]
+  }
+  const copy = useMemo(() => fa ? { nav: ['خانه','محصولات','درباره ما','تماس با ما'], heroKicker:'تجهیزات حرفه‌ای ساختمانی', heroTitle:'آکوتاو، انتخابی برای', heroAccent:'ساختمان‌های امن‌تر.', heroText:'ارائه تجهیزات و سیستم‌های حرفه‌ای ساختمانی برای فضاهایی امن‌تر، آرام‌تر و کارآمدتر.', cta:'مشاهده محصولات', products:'محصولات آکوتاو', productsText:'تجهیزات حرفه‌ای و قابل اعتماد برای ساختن فضاهایی امن و هوشمند.', all:'مشاهده محصول', story:'درباره آکوتاو', storyText:'شرکت آکوتاو در سال 1390 فعالیت خود را در زمینه ارائه خدمات و محصولات تجهیزات ساختمانی آغاز نموده است. این شرکت جزو مشاوران مورد تأیید سازمان‌های مهندسی و تجاری تهران می‌باشد و با بهره‌گیری از سال‌ها تجربه ارزشمند و راه‌اندازی صدها پروژه ملی، تبدیل به یکی از برندهای خوشنام و مورد اعتماد در حوزه تأسیسات شده است. ارائه راهکارهای متناسب با نیاز مشتری و خدمات پس از فروش پیوسته، باعث جلب اعتماد صنایع مختلف شده و رمز موفقیت این شرکت است. تمامی سیستم‌ها باید از برندهای معتمد، تأییدیه‌های معتبر جهانی و مهم‌تر از همه مورد تأیید سازمان آتش‌نشانی، مهندسی و خدمات ایمنی برق و غیره باشند. گروه صنعتی آکوتاو نماینده بهترین و معتبرترین برندهای مربوط به سیستم‌های اعلام حریق و سیستم‌های اطفاء حریق می‌باشد. همکاری با کمپانی‌های معتبر اروپایی و استفاده از پرسنل کارآزموده، در کنار بهره‌گیری از استانداردهای معتبر بین‌المللی، باعث کسب رضایت مشتریان و ارتقاء جایگاه این شرکت گردیده است.', explore:'بیشتر', partners:'اعتماد ساخته می‌شود، نه گفته.', contact:'تماس با ما ', panel:'پنل', menu:'منو' } : { nav: ['Home','Products','About','Contact'], heroKicker:'Buildings, made more intelligent', heroTitle:'Technology that', heroAccent:'moves with you.', heroText:'Integrated building automation for calmer, safer and more efficient homes and workspaces.', cta:'Explore solutions', secondary:'Watch the film', products:'Intelligence for every space', productsText:'From a single room to a complete building, create an experience that feels effortless.', all:'View all products', story:'Technology matters when it makes life simpler.', storyText:'We design intelligent infrastructure that works in the background — precise, calm and always ready.', explore:'More about us', partners:'Trust is built, not claimed.', contact:'Talk to an expert', panel:'Panel', menu:'Menu' }, [fa])
   const toggleLang = () => setFa(!fa)
   return <div dir={dir} className={`${dark ? 'dark' : ''} relative min-h-screen overflow-x-hidden bg-background/70 text-foreground transition-colors duration-500`}>
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-20 overflow-hidden bg-slate-950">
@@ -76,23 +115,77 @@ export default function SmartBuildingSite() {
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/75 backdrop-blur-xl">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 lg:px-10">
         <a href="#top" className="flex items-center gap-3"><span className="grid size-10 place-items-center rounded-2xl bg-primary text-primary-foreground"><Sparkles /></span><span className="text-lg font-bold tracking-tight">akotav<span className="text-primary">.</span></span></a>
-        <nav className="hidden items-center gap-8 lg:flex">{copy.nav.map((item, i) => <a key={item} href={i===1?'#solutions':i===3?'#story':i===4?'#insights':i===2?'#contact':'#top'} className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">{item}{i===1 && <ChevronDown className="ms-1 inline size-3" />}</a>)}</nav>
-        <div className="flex items-center gap-2"><button aria-label="Search" onClick={()=>setSearch(true)} className="grid size-10 place-items-center rounded-full hover:bg-muted"><Search /></button><button onClick={toggleLang} className="hidden items-center gap-1 rounded-full px-3 py-2 text-xs font-semibold hover:bg-muted sm:flex"><Globe2 /> {fa ? 'EN' : 'FA'}</button><button aria-label="Toggle theme" onClick={()=>setDark(!dark)} className="grid size-10 place-items-center rounded-full hover:bg-muted">{dark ? <Sun /> : <Moon />}</button><button aria-label={copy.menu} onClick={()=>setMenu(!menu)} className="grid size-10 place-items-center rounded-full bg-primary text-primary-foreground lg:hidden">{menu ? <X /> : <Menu />}</button><a href="#contact" className="hidden rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-transform hover:-translate-y-0.5 lg:block">{copy.contact}</a></div>
+        <nav className="hidden items-center gap-8 lg:flex">{copy.nav.map((item, i) => <a key={item} href={i===0?'#top':i===1?'#solutions':i===2?'#story':'#contact'} className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">{item}{i===1 && <ChevronDown className="ms-1 inline size-3" />}</a>)}</nav>
+        <div className="flex items-center gap-2"><button aria-label="Search" onClick={()=>setSearch(true)} className="grid size-10 place-items-center rounded-full hover:bg-muted"><Search /></button><button onClick={toggleLang} className="hidden items-center gap-1 rounded-full px-3 py-2 text-xs font-semibold hover:bg-muted sm:flex"><Globe2 /> {fa ? 'EN' : 'FA'}</button><button aria-label="Toggle theme" onClick={()=>setDark(!dark)} className="grid size-10 place-items-center rounded-full hover:bg-muted">{dark ? <Sun /> : <Moon />}</button><button aria-label={copy.menu} onClick={()=>setMenu(!menu)} className="grid size-10 place-items-center rounded-full bg-primary text-primary-foreground lg:hidden">{menu ? <X /> : <Menu />}</button><a href="/panel" className="hidden rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-transform hover:-translate-y-0.5 lg:block">{copy.panel}</a></div>
       </div>
-      {menu && <div className="border-t border-border bg-background px-5 py-5 lg:hidden"><div className="flex flex-col gap-4">{copy.nav.map((item,i)=><a key={item} href={i===1?'#solutions':'#top'} onClick={()=>setMenu(false)} className="text-base font-semibold">{item}</a>)}<button onClick={toggleLang} className="w-fit text-start text-sm text-muted-foreground">{fa?'English':'فارسی'}</button></div></div>}
+      {menu && <div className="border-t border-border bg-background px-5 py-5 lg:hidden"><div className="flex flex-col gap-4">{copy.nav.map((item,i)=><a key={item} href={i===0?'#top':i===1?'#solutions':i===2?'#story':'#contact'} onClick={()=>setMenu(false)} className="text-base font-semibold">{item}</a>)}<a href="/panel" onClick={()=>setMenu(false)} className="text-base font-semibold text-primary">{copy.panel}</a><button onClick={toggleLang} className="w-fit text-start text-sm text-muted-foreground">{fa?'English':'فارسی'}</button></div></div>}
     </header>
     <main id="top">
       <section className="relative mx-auto grid min-h-[650px] max-w-7xl items-center gap-12 px-5 py-16 lg:grid-cols-[1.02fr_.98fr] lg:px-10 lg:py-24">
-        <div className="relative z-10 max-w-xl"><div className="mb-7 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-xs font-semibold text-primary"><span className="size-2 animate-pulse rounded-full bg-primary" />{copy.heroKicker}</div><h1 className="text-5xl font-semibold leading-[1.04] tracking-[-.06em] sm:text-7xl">{copy.heroTitle}<br /><span className="text-primary">{copy.heroAccent}</span></h1><p className="mt-7 max-w-lg text-base leading-8 text-muted-foreground sm:text-lg">{copy.heroText}</p><div className="mt-9 flex flex-wrap items-center gap-4"><a href="#solutions" className="inline-flex items-center gap-3 rounded-full bg-primary px-6 py-4 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/20">{copy.cta}<ArrowLeft className="rtl:rotate-0 ltr:rotate-180" /></a></div></div>
-        <div className="relative mx-auto aspect-square w-full max-w-[520px] overflow-hidden rounded-[2.5rem] border border-border/70 bg-card/65 p-4 shadow-2xl backdrop-blur-xl"><div className="relative h-full overflow-hidden rounded-[2rem] bg-slate-950"><img src={bannerImages[bannerSlide].src} alt={bannerImages[bannerSlide].alt} className="absolute inset-0 size-full object-cover transition-opacity duration-500" /><div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/10 to-transparent" /><div className="relative flex h-full flex-col justify-end p-7 text-white sm:p-10"><span className="mb-4 w-fit rounded-full border border-white/30 bg-white/10 px-3 py-1 text-xs backdrop-blur">{fa?'معرفی آکاتو':'AKOTAV / INTRODUCTION'}</span><h2 className="max-w-md text-3xl font-semibold leading-tight sm:text-4xl">{fa?'امنیت و آسایش، برای هر فضا.':'Smarter systems for every space.'}</h2><p className="mt-4 max-w-md text-sm leading-7 text-white/75">{fa?'تجهیزات حرفه‌ای آکاتو برای خانه، درمان و ساختمان‌های هوشمند.':'Professional Akotav equipment for homes, healthcare and smart buildings.'}</p><div className="mt-6 flex items-center gap-2" aria-label={fa?'انتخاب تصویر بنر':'Choose banner image'}>{bannerImages.map((image, index)=><button key={image.src} aria-label={`${fa?'تصویر':'Image'} ${index + 1}`} onClick={() => setBannerSlide(index)} className={`h-1.5 rounded-full transition-all ${bannerSlide === index ? 'w-8 bg-white' : 'w-2 bg-white/50'}`} />)}</div></div></div></div>
+        <div className="relative z-10 max-w-xl"><div className="mb-7 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-xs font-semibold text-primary"><span className="size-2 animate-pulse rounded-full bg-primary" />{copy.heroKicker}</div><h1 className="text-5xl font-semibold leading-[1.04] tracking-[-.06em] sm:text-7xl">{copy.heroTitle}<br /><span className="text-primary">{copy.heroAccent}</span></h1><p className="mt-7 max-w-lg text-base leading-8 text-muted-foreground sm:text-lg">{copy.heroText}</p><div className="mt-9 flex flex-wrap items-center gap-4"><a href="/products" className="inline-flex items-center gap-3 rounded-full bg-primary px-6 py-4 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/20">{copy.cta}<ArrowLeft className="rtl:rotate-0 ltr:rotate-180" /></a></div></div>
+        {banners.length > 0 && (
+          <div className="relative mx-auto aspect-video w-full max-w-[600px] overflow-hidden rounded-[2.5rem] border border-border/70 bg-card/65 shadow-2xl backdrop-blur-xl">
+            <div className="relative h-full overflow-hidden rounded-[2rem] bg-slate-950">
+              <img 
+                src={banners[bannerSlide].imageUrl} 
+                alt={banners[bannerSlide].title || 'Banner'} 
+                className="absolute inset-0 size-full object-cover transition-opacity duration-500" 
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/10 to-transparent" />
+              {banners[bannerSlide].title && (
+                <div className="relative flex h-full flex-col justify-end p-7 text-white sm:p-10">
+                  <h2 className="max-w-md text-3xl font-semibold leading-tight sm:text-4xl">
+                    {banners[bannerSlide].title}
+                  </h2>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </section>
-      <section id="solutions" className="mx-auto max-w-7xl px-5 py-20 lg:px-10 lg:py-28"><div className="mb-12 flex flex-col justify-between gap-5 sm:flex-row sm:items-end"><div><p className="mb-3 text-sm font-bold text-primary">01 / {fa?'راهکارها':'SOLUTIONS'}</p><h2 className="max-w-xl text-4xl font-semibold tracking-[-.045em] sm:text-5xl">{copy.products}</h2></div><p className="max-w-sm text-sm leading-7 text-muted-foreground">{copy.productsText}</p></div><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{products.map(({icon:Icon,en,fa:faName,color},i)=><article key={en} className="group rounded-3xl border border-border/70 bg-card/65 p-6 backdrop-blur transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl"><div className={`mb-14 grid size-12 place-items-center rounded-2xl ${color}`}><Icon /></div><p className="mb-3 text-xs font-semibold text-muted-foreground">0{i+1}</p><h3 className="text-xl font-semibold">{fa?faName:en}</h3><a href="#contact" className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-primary">{copy.all} <ArrowLeft className="rtl:rotate-0 ltr:rotate-180" /></a></article>)}</div></section>
-      <section id="story" className="border-y border-border/60 bg-card/45"><div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 lg:grid-cols-[.8fr_1.2fr] lg:px-10 lg:py-28"><div><p className="mb-3 text-sm font-bold text-primary">02 / {fa?'درباره ما':'ABOUT US'}</p><h2 className="text-4xl font-semibold leading-tight tracking-[-.045em] sm:text-5xl">{copy.story}</h2></div><div><p className="max-w-2xl text-xl leading-10 text-muted-foreground">{copy.storyText}</p><a href="#contact" className="mt-8 inline-flex items-center gap-3 rounded-full border border-border px-5 py-3 text-sm font-semibold">{copy.explore}<ArrowLeft className="rtl:rotate-0 ltr:rotate-180" /></a></div></div></section>
-      <section id="insights" className="mx-auto max-w-7xl px-5 py-20 lg:px-10 lg:py-28"><div className="mb-10 flex items-end justify-between"><div><p className="mb-3 text-sm font-bold text-primary">03 / {fa?'مجله':'INSIGHTS'}</p><h2 className="text-4xl font-semibold tracking-[-.045em]">{copy.insights}</h2></div><div className="hidden gap-2 sm:flex"><button aria-label="Previous article" onClick={()=>setSlide((slide+2)%3)} className="grid size-11 place-items-center rounded-full border border-border"><ChevronRight /></button><button aria-label="Next article" onClick={()=>setSlide((slide+1)%3)} className="grid size-11 place-items-center rounded-full bg-primary text-primary-foreground"><ChevronLeft /></button></div></div><div className="grid gap-5 lg:grid-cols-[1.35fr_1fr_1fr]"><article className="min-h-[340px] rounded-[2rem] bg-primary p-8 text-primary-foreground sm:p-10"><div className="flex h-full flex-col justify-between"><div className="flex items-center justify-between text-xs"><span className="rounded-full border border-primary-foreground/30 px-3 py-1">{fa?'راهن��ای طراحی':'DESIGN GUIDE'}</span><span>06.11.24</span></div><div><h3 className="max-w-md text-3xl font-semibold leading-tight">{fa?'۵ راه برای ساختن خانه‌ای که با شما فکر می‌کند':'5 ways to build a home that thinks with you'}</h3><a href="#contact" className="mt-7 inline-flex items-center gap-2 text-sm font-semibold">{copy.read}<ArrowLeft className="rtl:rotate-0 ltr:rotate-180" /></a></div></div></article>{[fa?'آینده مدیریت انرژی در ساختمان‌ها':'The future of energy management',fa?'چرا نورپردازی هوشمند مهم است؟':'Why intelligent lighting matters'].map((title,i)=><article key={title} className="rounded-[2rem] border border-border/70 bg-card/65 p-7 backdrop-blur"><div className="mb-20 flex justify-between text-xs text-muted-foreground"><span>0{i+2} / 06.11.24</span><ArrowUpLeft /></div><h3 className="text-2xl font-semibold leading-tight">{title}</h3><a href="#contact" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary">{copy.read}<ArrowLeft className="rtl:rotate-0 ltr:rotate-180" /></a></article>)}</div></section>
-      <section aria-labelledby="partners-title" className="mb-4 overflow-hidden border-y border-border/60 bg-card/35 py-8"><div className="mx-auto max-w-7xl px-5 lg:px-10"><div className="mb-5 flex items-center justify-between gap-4"><p id="partners-title" className="text-sm font-bold text-primary">{fa?'شرکت‌های همکار':'PARTNER COMPANIES'}</p><span className="text-xs text-muted-foreground">{fa?'همراهان آکاتو':'Akotav partners'}</span></div><div className="relative overflow-hidden"><div className="flex w-max animate-marquee items-center gap-12 py-3" dir="ltr">{[...partners,...partners,...partners,...partners].map((partner,index)=><div key={`${partner.src}-${index}`} className="flex h-16 w-40 shrink-0 items-center justify-center rounded-2xl border border-primary/25 bg-primary/10 px-5 py-3"><img src={partner.src} alt={partner.alt} className="max-h-10 w-auto max-w-full object-contain" /></div>)}</div></div></div></section>
-      <section id="contact" className="mx-auto max-w-7xl px-5 pb-20 lg:px-10 lg:pb-28"><div className="relative overflow-hidden rounded-[2rem] bg-foreground p-8 text-background sm:p-12 lg:p-16"><div className="absolute -end-20 -top-28 size-80 rounded-full bg-primary/30 blur-3xl" /><div className="relative flex flex-col justify-between gap-10 lg:flex-row lg:items-end"><div><p className="mb-4 text-sm font-bold text-primary">04 / {fa?'شروع کنیم':'LET’S CONNECT'}</p><h2 className="max-w-2xl text-4xl font-semibold tracking-[-.045em] sm:text-6xl">{fa?'پروژه بعدی شما، هوشمندتر شروع می‌شود.':'Your next project starts smarter.'}</h2></div><a href="mailto:hello@akotav.com" className="inline-flex w-fit items-center gap-3 rounded-full bg-primary px-6 py-4 text-sm font-semibold text-primary-foreground">{copy.contact}<ArrowLeft className="rtl:rotate-0 ltr:rotate-180" /></a></div></div></section>
+      <section id="solutions" className="mx-auto max-w-7xl px-5 py-20 lg:px-10 lg:py-28">
+        <div className="mb-12">
+          <p className="mb-3 text-sm font-bold text-primary">01 / {fa?'راهکارها':'SOLUTIONS'}</p>
+          <h2 className="max-w-xl text-4xl font-semibold tracking-[-.045em] sm:text-5xl">{copy.products}</h2>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {categories.map((category, i) => (
+            <article 
+              key={category.id} 
+              className={`group rounded-3xl border border-border/70 p-6 backdrop-blur transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl ${getRandomLightColor(i)}`}
+            >
+              <h3 className="mb-4 text-xl font-semibold">{fa ? category.nameFa : category.nameEn}</h3>
+              <a 
+                href={`/products?category=${category.id}`} 
+                className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-primary"
+              >
+                {copy.all} <ArrowLeft className="rtl:rotate-0 ltr:rotate-180" />
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+      <section id="story" className="border-y border-border/60 bg-card/45">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 lg:grid-cols-[.8fr_1.2fr] lg:px-10 lg:py-28">
+          <div>
+            <p className="mb-3 text-sm font-bold text-primary">02 / {fa?'درباره ما':'ABOUT US'}</p>
+            <h2 className="text-4xl font-semibold leading-tight tracking-[-.045em] sm:text-5xl">{copy.story}</h2>
+          </div>
+          <div>
+            <p className="whitespace-pre-line text-xl leading-10 text-justify text-muted-foreground">
+              {aboutPreview || copy.storyText}
+            </p>
+            <a href="/about" className="mt-8 inline-flex items-center gap-3 rounded-full border border-border px-5 py-3 text-sm font-semibold">
+              {copy.explore}<ArrowLeft className="rtl:rotate-0 ltr:rotate-180" />
+            </a>
+          </div>
+        </div>
+      </section>
+      <section aria-labelledby="partners-title" className="mb-4 overflow-hidden border-y border-border/60 bg-card/35 py-8"><div className="mx-auto max-w-7xl px-5 lg:px-10"><div className="mb-5 flex items-center justify-between gap-4"><p id="partners-title" className="text-sm font-bold text-primary">{fa?'شرکت‌های همکار':'PARTNER COMPANIES'}</p></div><div className="relative overflow-hidden"><div className="flex w-max animate-marquee-rtl items-center gap-12 py-3" dir="ltr">{[...partners,...partners,...partners,...partners].map((partner,index)=><div key={`${partner.id}-${index}`} className="flex h-16 w-40 shrink-0 items-center justify-center rounded-2xl border border-primary/25 bg-primary/10 px-5 py-3"><img src={partner.logoUrl} alt={partner.title || 'Partner'} className="max-h-10 w-auto max-w-full object-contain" /></div>)}</div></div></div></section>
+      <section id="contact" className="mx-auto max-w-7xl px-5 pb-20 lg:px-10 lg:pb-28"><div className="relative overflow-hidden rounded-[2rem] bg-foreground p-8 text-background sm:p-12 lg:p-16"><div className="absolute -end-20 -top-28 size-80 rounded-full bg-primary/30 blur-3xl" /><div className="relative flex flex-col justify-between gap-10 lg:flex-row lg:items-end"><div><p className="mb-4 text-sm font-bold text-primary">04 / {fa?'شروع کنیم':'LET’S CONNECT'}</p><h2 className="max-w-2xl text-4xl font-semibold tracking-[-.045em] sm:text-6xl">{fa?'پروژه بعدی شما، هوشمندتر شروع می‌شود.':'Your next project starts smarter.'}</h2></div><a href="/contact" className="inline-flex w-fit items-center gap-3 rounded-full bg-primary px-6 py-4 text-sm font-semibold text-primary-foreground">{copy.contact}<ArrowLeft className="rtl:rotate-0 ltr:rotate-180" /></a></div></div></section>
     </main>
     <footer className="border-t border-border/60"><div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 py-10 text-sm text-muted-foreground lg:flex-row lg:items-center lg:justify-between lg:px-10"><div className="flex items-center gap-3 text-foreground"><span className="grid size-9 place-items-center rounded-xl bg-primary text-primary-foreground"><Sparkles /></span><span className="font-bold">akotav<span className="text-primary">.</span></span></div><p>{fa?'راهکارهای هوشمند برای زندگی بهتر.':'Intelligent systems for better living.'}</p><p>© 2024 Akotav</p></div></footer>
+    <WhatsAppButton />
     {search && <div role="dialog" aria-modal="true" className="fixed inset-0 z-50 grid place-items-start bg-foreground/30 p-5 pt-28 backdrop-blur-sm" onClick={()=>setSearch(false)}><div className="w-full max-w-xl rounded-3xl border border-border bg-background p-4 shadow-2xl" onClick={e=>e.stopPropagation()}><div className="flex items-center gap-3 border-b border-border px-3 pb-3"><Search className="text-muted-foreground" /><input autoFocus placeholder={fa?'جستجو در سایت...':'Search the site...'} className="flex-1 bg-transparent py-2 outline-none" /><button onClick={()=>setSearch(false)} aria-label="Close search"><X /></button></div><div className="py-8 text-center text-sm text-muted-foreground">{fa?'محصول، مقاله یا صفحه‌ای را جستجو کنید':'Search products, articles or pages'}</div></div></div>}
   </div>
 }

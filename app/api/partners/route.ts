@@ -37,9 +37,9 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { title, logoUrl, filename, websiteUrl } = body
 
-    if (!logoUrl || !filename || !websiteUrl) {
+    if (!logoUrl || !filename) {
       return NextResponse.json(
-        { error: 'لوگو و وب‌سایت الزامی هستند' },
+        { error: 'لوگو الزامی است' },
         { status: 400 }
       )
     }
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
         title: title || null,
         logoUrl,
         filename,
-        websiteUrl
+        websiteUrl: websiteUrl || null
       }
     })
 

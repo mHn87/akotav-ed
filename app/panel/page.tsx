@@ -100,7 +100,7 @@ export default function PanelDashboard() {
         </h2>
         <p className="text-gray-600 dark:text-gray-400">
           {lang === 'fa'
-            ? 'به پنل مدیریت آکاتو خوش آمدید. از منوی کناری برای مدیریت محصولات، دسته‌بندی‌ها و صفحات استفاده کنید.'
+            ? 'به پنل مدیریت آکوتاو خوش آمدید. از منوی کناری برای مدیریت محصولات، دسته‌بندی‌ها و صفحات استفاده کنید.'
             : 'Welcome to Akotav admin panel. Use the sidebar menu to manage products, categories, and pages.'}
         </p>
       </div>
