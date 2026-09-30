@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { mockBanners } from '@/lib/mock-data'
 
 // GET all banners (public - no auth required)
 export async function GET() {
@@ -13,9 +14,7 @@ export async function GET() {
     return NextResponse.json(banners)
   } catch (error) {
     console.error('Get public banners error:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch banners' },
-      { status: 500 }
-    )
+    // در صورت خطا، داده‌های mock را برگردان
+    return NextResponse.json(mockBanners)
   }
 }

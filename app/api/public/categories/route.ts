@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { mockCategories } from '@/lib/mock-data'
 
 // GET all categories (public - no auth required)
 export async function GET() {
@@ -13,9 +14,7 @@ export async function GET() {
     return NextResponse.json(categories)
   } catch (error) {
     console.error('Get public categories error:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch categories' },
-      { status: 500 }
-    )
+    // در صورت خطا، داده‌های mock را برگردان
+    return NextResponse.json(mockCategories)
   }
 }

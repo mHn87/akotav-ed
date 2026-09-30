@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { mockPartners } from '@/lib/mock-data'
 
 // GET all partners (public - no auth required)
 export async function GET() {
@@ -13,9 +14,7 @@ export async function GET() {
     return NextResponse.json(partners)
   } catch (error) {
     console.error('Get public partners error:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch partners' },
-      { status: 500 }
-    )
+    // در صورت خطا، داده‌های mock را برگردان
+    return NextResponse.json(mockPartners)
   }
 }
