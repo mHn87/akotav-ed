@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  nameFa    String
+  nameEn    String    @unique
+  slug      String    @unique
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([slug])
+}
+
+model Product {
+  id             String    @id @default(cuid())
+  nameFa         String
+  nameEn         String?
+  descriptionFa  String?   @db.Text
+  descriptionEn  String?   @db.Text
+  categoryId     String
+  category       Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  media          Media[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([categoryId])
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  type      String   // "image" or "video"
+  url       String
+  filename  String
+  isMain    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+}
+
+model Page {
+  id        String   @id @default(cuid())
+  key       String   @unique  // "about" or "contact"
+  titleFa   String
+  titleEn   String
+  contentFa String   @db.Text
+  contentEn String   @db.Text
+  updatedAt DateTime @updatedAt
+}
+
+model Banner {
+  id        String   @id @default(cuid())
+  title     String?
+  imageUrl  String
+  filename  String
+  linkUrl   String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([order])
+}
+
+model Partner {
+  id        String   @id @default(cuid())
+  title     String?
+  logoUrl   String
+  filename  String
+  websiteUrl String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
